@@ -93,10 +93,10 @@ Markdown
 |              |                                   |     |
 
 ```
-![测试图片](static/images/Mikoto.png)
+![测试图片](/static/images/Mikoto.png)
 ```
 
-![测试图片](static/images/blog/Mikoto.png)
+![测试图片](/static/images/blog/Mikoto.png)
 
 ---
 
