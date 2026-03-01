@@ -1,8 +1,9 @@
 {
-  "github": 1,
-  "guide": 5,
-  "next-js": 5,
-  "tailwind": 3,
-  "feature": 2,
-  "multi-author": 1
+  "dev": 2,
+  "project": 1,
+  "troubleshooting": 1,
+  "wsl": 1,
+  "obsidian": 1,
+  "next-js": 1,
+  "markdown": 1
 }

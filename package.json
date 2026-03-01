@@ -11,7 +11,7 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
     "prepare": "husky",
     "sync-blog": "rsync -av --delete /mnt/d/Documents/Blogs/blog/ ./data/blog/",
-    "sync-images": "rsync -av --delete /mnt/d/Documents/Blogs/static/images/blog ./public/static/images/blog",
+    "sync-images": "rsync -av --delete /mnt/d/Documents/Blogs/static/images/blog/ ./public/static/images/blog/",
     "sync": "npm run sync-blog && npm run sync-images"
   },
   "dependencies": {
