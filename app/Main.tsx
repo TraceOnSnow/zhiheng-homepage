@@ -6,6 +6,7 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import projectsData from '@/data/projectsData'
 import siteMetadata from '@/data/siteMetadata'
+import { getMessages, type Locale } from '@/lib/i18n'
 
 const MAX_DISPLAY = 3
 
@@ -27,7 +28,8 @@ const Sparkle = ({ className = 'h-5 w-5' }: { className?: string }) => (
   </svg>
 )
 
-export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
+export default function Home({ posts, locale }: { posts: CoreContent<Blog>[]; locale: Locale }) {
+  const copy = getMessages(locale)
   const featuredProject = projectsData[0]
 
   return (
@@ -46,11 +48,11 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
-              Building curious things with AI
+              {copy.home.status}
             </div>
 
             <p className="mb-3 text-sm font-bold tracking-[0.22em] text-cyan-600 uppercase dark:text-cyan-300">
-              Hello, world! I&apos;m
+              {copy.home.greeting}
             </p>
             <h1 className="text-5xl leading-[0.98] font-black tracking-[-0.05em] text-balance text-gray-950 sm:text-6xl lg:text-7xl dark:text-white">
               Zhiheng
@@ -62,11 +64,11 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/projects" className="button-primary group">
-                Explore my work
+                {copy.home.ctaProjects}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
               <Link href="/about" className="button-secondary">
-                More about me
+                {copy.home.ctaAbout}
               </Link>
             </div>
           </div>
@@ -83,7 +85,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                 className="aspect-square w-full rounded-[2rem] object-cover"
               />
               <div className="absolute -right-4 -bottom-3 rotate-3 rounded-2xl border border-white/80 bg-white/90 px-4 py-2 text-sm font-bold text-gray-800 shadow-lg backdrop-blur dark:border-white/10 dark:bg-gray-900/90 dark:text-gray-100">
-                <span className="mr-1.5 text-pink-400">✦</span> always exploring
+                <span className="mr-1.5 text-pink-400">✦</span> {copy.home.alwaysExploring}
               </div>
             </div>
           </div>
@@ -93,11 +95,11 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
       <section className="py-16 sm:py-20">
         <div className="mb-8 flex items-end justify-between gap-6">
           <div>
-            <p className="section-kicker">Selected work</p>
-            <h2 className="section-title">Things I&apos;ve been making</h2>
+            <p className="section-kicker">{copy.home.selectedWork}</p>
+            <h2 className="section-title">{copy.home.workTitle}</h2>
           </div>
           <Link href="/projects" className="text-link hidden sm:inline-flex">
-            All projects <ArrowUpRight />
+            {copy.home.allProjects} <ArrowUpRight />
           </Link>
         </div>
 
@@ -116,7 +118,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
             )}
             <div className="flex flex-col justify-center p-7 sm:p-10">
               <div className="mb-5 flex flex-wrap gap-2">
-                {['Web', 'Creative', 'Side project'].map((item) => (
+                {copy.home.projectBadges.map((item) => (
                   <span key={item} className="soft-badge">
                     {item}
                   </span>
@@ -141,16 +143,16 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
       <section className="rounded-[2rem] border border-white/70 bg-gradient-to-br from-cyan-50/85 via-white/90 to-pink-50/85 p-6 shadow-[0_24px_80px_-48px_rgba(88,80,180,0.5)] sm:p-10 dark:border-white/10 dark:from-cyan-950/35 dark:via-gray-900/80 dark:to-pink-950/30">
         <div className="mb-8 flex items-end justify-between gap-6">
           <div>
-            <p className="section-kicker">Latest notes</p>
-            <h2 className="section-title">From the blog</h2>
+            <p className="section-kicker">{copy.home.notes}</p>
+            <h2 className="section-title">{copy.home.blogTitle}</h2>
           </div>
           <Link href="/blog" className="text-link hidden sm:inline-flex">
-            Read all <ArrowUpRight />
+            {copy.home.readAll} <ArrowUpRight />
           </Link>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          {!posts.length && <p className="text-gray-500">No posts found.</p>}
+          {!posts.length && <p className="text-gray-500">{copy.pages.noPosts}</p>}
           {posts.slice(0, MAX_DISPLAY).map((post, index) => {
             const { slug, date, title, summary, tags } = post
             return (
@@ -181,7 +183,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
         </div>
 
         <Link href="/blog" className="button-secondary mt-6 w-full justify-center sm:hidden">
-          Read all posts
+          {copy.home.readAll} posts
         </Link>
       </section>
     </div>

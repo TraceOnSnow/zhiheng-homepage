@@ -6,7 +6,11 @@ import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
-const MobileNav = () => {
+interface MobileNavProps {
+  labels: Record<string, string>
+}
+
+const MobileNav = ({ labels }: MobileNavProps) => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)
 
@@ -76,12 +80,12 @@ const MobileNav = () => {
                 >
                   {headerNavLinks.map((link) => (
                     <Link
-                      key={link.title}
+                      key={labels[link.key]}
                       href={link.href}
                       className="hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-500/10 dark:hover:text-primary-300 mb-2 w-full rounded-2xl px-4 py-3 text-xl font-black tracking-tight text-gray-800 transition dark:text-gray-100"
                       onClick={onToggleNav}
                     >
-                      {link.title}
+                      {labels[link.key]}
                     </Link>
                   ))}
                 </nav>

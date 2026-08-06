@@ -1,12 +1,21 @@
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
+import { getMessages } from '@/lib/i18n'
+import { getLocale } from '@/lib/i18n-server'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import LanguageSwitch from './LanguageSwitch'
 
-const Header = () => {
+const Header = async () => {
+  const locale = await getLocale()
+  const { nav } = getMessages(locale)
+  const labels = Object.fromEntries(
+    Object.entries(nav).map(([key, value]) => [key, value])
+  ) as Record<string, string>
+
   return (
     <header className="sticky top-3 z-50 mb-8 pt-3 sm:top-4 sm:mb-10 sm:pt-4">
       <div className="flex min-h-16 items-center justify-between rounded-2xl border border-white/75 bg-white/75 px-3 shadow-[0_12px_40px_-24px_rgba(72,62,130,0.55)] backdrop-blur-xl sm:px-5 dark:border-white/10 dark:bg-gray-950/72">
@@ -29,23 +38,24 @@ const Header = () => {
             aria-label="Main navigation"
           >
             {headerNavLinks
-              .filter((link) => link.href !== '/' && link.title !== 'Resume')
+              .filter((link) => link.key !== 'home' && link.key !== 'resume')
               .map((link) => (
-                <Link key={link.title} href={link.href} className="nav-link">
-                  {link.title}
+                <Link key={link.key} href={link.href} className="nav-link">
+                  {labels[link.key]}
                 </Link>
               ))}
           </nav>
           <div className="mx-1 hidden h-5 w-px bg-gray-200 md:block dark:bg-white/10" />
           <SearchButton />
+          <LanguageSwitch locale={locale} />
           <ThemeSwitch />
           <Link
             href="/static/files/Resume_zhiheng.pdf"
             className="resume-button hidden sm:inline-flex"
           >
-            Resume
+            {nav.resume}
           </Link>
-          <MobileNav />
+          <MobileNav labels={labels} />
         </div>
       </div>
     </header>

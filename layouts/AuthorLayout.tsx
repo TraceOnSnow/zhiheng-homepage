@@ -2,13 +2,16 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
+import { getMessages, type Locale } from '@/lib/i18n'
 
 interface Props {
   children: ReactNode
   content: Omit<Authors, '_id' | '_raw' | 'body'>
+  locale: Locale
 }
 
-export default function AuthorLayout({ children, content }: Props) {
+export default function AuthorLayout({ children, content, locale }: Props) {
+  const copy = getMessages(locale)
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 
   return (
@@ -16,8 +19,8 @@ export default function AuthorLayout({ children, content }: Props) {
       <header className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 px-6 py-12 shadow-[0_24px_80px_-44px_rgba(88,80,180,0.5)] backdrop-blur-xl sm:px-10 dark:border-white/10 dark:bg-gray-900/70">
         <div className="anime-grid absolute inset-0 -z-10 opacity-45" />
         <div className="absolute -top-20 -right-20 -z-10 h-56 w-56 rounded-full bg-pink-200/55 blur-3xl dark:bg-pink-500/10" />
-        <p className="section-kicker">Character profile</p>
-        <h1 className="section-title text-4xl sm:text-5xl">About me</h1>
+        <p className="section-kicker">{copy.pages.aboutKicker}</p>
+        <h1 className="section-title text-4xl sm:text-5xl">{copy.pages.aboutTitle}</h1>
       </header>
 
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-[280px_1fr]">

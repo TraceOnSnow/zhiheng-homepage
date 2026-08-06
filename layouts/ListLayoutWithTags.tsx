@@ -9,10 +9,16 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
+import { getMessages, type Locale } from '@/lib/i18n'
 
 interface PaginationProps {
   totalPages: number
   currentPage: number
+}
+
+interface PaginationLabels {
+  previous: string
+  next: string
 }
 
 interface ListLayoutProps {
@@ -20,9 +26,14 @@ interface ListLayoutProps {
   title: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
+  locale: Locale
 }
 
-function Pagination({ totalPages, currentPage }: PaginationProps) {
+function Pagination({
+  totalPages,
+  currentPage,
+  labels,
+}: PaginationProps & { labels: PaginationLabels }) {
   const pathname = usePathname()
   const basePath = pathname
     .replace(/^\//, '')
@@ -42,7 +53,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
           rel="prev"
         >
-          Previous
+          {labels.previous}
         </Link>
       ) : (
         <span />
@@ -52,7 +63,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
       </span>
       {nextPage ? (
         <Link className="button-secondary" href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-          Next
+          {labels.next}
         </Link>
       ) : (
         <span />
@@ -66,7 +77,9 @@ export default function ListLayoutWithTags({
   title,
   initialDisplayPosts = [],
   pagination,
+  locale,
 }: ListLayoutProps) {
+  const copy = getMessages(locale)
   const pathname = usePathname()
   const tagCounts = tagData as Record<string, number>
   const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
@@ -77,10 +90,10 @@ export default function ListLayoutWithTags({
       <header className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 px-6 py-12 shadow-[0_24px_80px_-44px_rgba(88,80,180,0.5)] backdrop-blur-xl sm:px-10 dark:border-white/10 dark:bg-gray-900/70">
         <div className="anime-grid absolute inset-0 -z-10 opacity-45" />
         <div className="absolute -top-20 -right-20 -z-10 h-56 w-56 rounded-full bg-cyan-200/55 blur-3xl dark:bg-cyan-500/10" />
-        <p className="section-kicker">Notes & stories</p>
+        <p className="section-kicker">{copy.pages.blogKicker}</p>
         <h1 className="section-title text-4xl sm:text-5xl">{title}</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-          Ideas, build logs, and things I want to remember.
+          {copy.pages.blogDescription}
         </p>
       </header>
 
@@ -88,14 +101,14 @@ export default function ListLayoutWithTags({
         <aside className="lg:sticky lg:top-28 lg:self-start">
           <div className="soft-card p-4">
             <p className="px-2 pb-3 text-xs font-extrabold tracking-[0.18em] text-gray-400 uppercase">
-              Topics
+              {copy.pages.topics}
             </p>
             <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible">
               <Link
                 href="/blog"
                 className={`rounded-xl px-3 py-2 text-sm font-bold whitespace-nowrap transition ${pathname.startsWith('/blog') ? 'bg-primary-100 text-primary-700 dark:bg-primary-400/15 dark:text-primary-200' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5'}`}
               >
-                All posts <span className="ml-1 opacity-55">{posts.length}</span>
+                {copy.pages.allPosts} <span className="ml-1 opacity-55">{posts.length}</span>
               </Link>
               {sortedTags.map((tag) => {
                 const active = decodeURI(pathname.split('/tags/')[1] || '') === slug(tag)
@@ -152,7 +165,11 @@ export default function ListLayoutWithTags({
             )
           })}
           {pagination && pagination.totalPages > 1 && (
-            <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              labels={{ previous: copy.pages.previous, next: copy.pages.next }}
+            />
           )}
         </div>
       </div>
