@@ -7,44 +7,46 @@ import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
-  if (siteMetadata.stickyNav) {
-    headerClass += ' sticky top-0 z-50'
-  }
-
   return (
-    <header className={headerClass}>
-      <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-between">
-          <div className="mr-3">
+    <header className="sticky top-3 z-50 mb-8 pt-3 sm:top-4 sm:mb-10 sm:pt-4">
+      <div className="flex min-h-16 items-center justify-between rounded-2xl border border-white/75 bg-white/75 px-3 shadow-[0_12px_40px_-24px_rgba(72,62,130,0.55)] backdrop-blur-xl sm:px-5 dark:border-white/10 dark:bg-gray-950/72">
+        <Link
+          href="/"
+          aria-label={siteMetadata.headerTitle}
+          className="group flex items-center gap-2.5 rounded-xl py-2 pr-2"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-100 to-pink-100 shadow-sm transition-transform duration-300 group-hover:-rotate-6 dark:from-cyan-500/20 dark:to-pink-500/20">
             <Logo />
-          </div>
-          {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
-              {siteMetadata.headerTitle}
-            </div>
-          ) : (
-            siteMetadata.headerTitle
-          )}
+          </span>
+          <span className="hidden text-lg font-black tracking-tight text-gray-900 sm:block dark:text-white">
+            Zhiheng<span className="text-primary-500">.</span>
+          </span>
+        </Link>
+
+        <div className="flex items-center gap-1 sm:gap-2">
+          <nav
+            className="no-scrollbar hidden items-center gap-1 overflow-x-auto md:flex"
+            aria-label="Main navigation"
+          >
+            {headerNavLinks
+              .filter((link) => link.href !== '/' && link.title !== 'Resume')
+              .map((link) => (
+                <Link key={link.title} href={link.href} className="nav-link">
+                  {link.title}
+                </Link>
+              ))}
+          </nav>
+          <div className="mx-1 hidden h-5 w-px bg-gray-200 md:block dark:bg-white/10" />
+          <SearchButton />
+          <ThemeSwitch />
+          <Link
+            href="/static/files/Resume_zhiheng.pdf"
+            className="resume-button hidden sm:inline-flex"
+          >
+            Resume
+          </Link>
+          <MobileNav />
         </div>
-      </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:-mr-6 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center gap-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
-          {headerNavLinks
-            .filter((link) => link.href !== '/')
-            .map((link) => (
-              <Link
-                key={link.title}
-                href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
-              >
-                {link.title}
-              </Link>
-            ))}
-        </div>
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
       </div>
     </header>
   )

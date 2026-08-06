@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/forms";
+@plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @source '../node_modules/pliny';
 @custom-variant dark (&:where(.dark, .dark *));
@@ -7,7 +7,8 @@
 /* Core theme configuration */
 @theme {
   /* Font families */
-  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+  --font-sans:
+    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* Colors */
@@ -172,4 +173,149 @@ input:-webkit-autofill:focus {
 .linkicon {
   display: inline-block;
   vertical-align: middle;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(
+        circle at 8% 4%,
+        color-mix(in oklab, var(--color-cyan-200) 45%, transparent) 0,
+        transparent 24rem
+      ),
+      radial-gradient(
+        circle at 94% 14%,
+        color-mix(in oklab, var(--color-pink-200) 42%, transparent) 0,
+        transparent 26rem
+      ),
+      linear-gradient(180deg, #fbfdff 0%, #fffafd 48%, #f9fcff 100%);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background:
+      radial-gradient(
+        circle at 8% 4%,
+        color-mix(in oklab, var(--color-cyan-900) 34%, transparent) 0,
+        transparent 26rem
+      ),
+      radial-gradient(
+        circle at 94% 14%,
+        color-mix(in oklab, var(--color-pink-950) 42%, transparent) 0,
+        transparent 28rem
+      ),
+      linear-gradient(180deg, #080b14 0%, #0c0c18 48%, #080d16 100%);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary-300) 55%, transparent);
+    color: var(--color-gray-950);
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply hover:bg-primary-50 hover:text-primary-700 dark:hover:bg-primary-500/10 dark:hover:text-primary-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-600 transition-colors dark:text-gray-300;
+  }
+
+  .resume-button {
+    @apply hover:bg-primary-600 dark:hover:bg-primary-200 items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 dark:bg-white dark:text-gray-900;
+  }
+
+  .button-primary {
+    @apply shadow-primary-500/15 hover:bg-primary-600 dark:hover:bg-primary-200 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gray-950 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 focus-visible:outline-offset-4 dark:bg-white dark:text-gray-950;
+  }
+
+  .button-secondary {
+    @apply hover:border-primary-200 hover:bg-primary-50 hover:text-primary-700 dark:hover:border-primary-400/30 dark:hover:bg-primary-500/10 dark:hover:text-primary-200 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-gray-200/80 bg-white/75 px-5 py-3 text-sm font-bold text-gray-700 shadow-sm backdrop-blur transition duration-200 hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5 dark:text-gray-200;
+  }
+
+  .section-kicker {
+    @apply text-primary-500 dark:text-primary-300 mb-2 text-xs font-extrabold tracking-[0.22em] uppercase;
+  }
+
+  .section-title {
+    @apply text-3xl font-black tracking-[-0.035em] text-gray-950 sm:text-4xl dark:text-white;
+  }
+
+  .text-link {
+    @apply text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 items-center gap-1.5 text-sm font-bold transition-colors;
+  }
+
+  .soft-badge {
+    @apply border-primary-100 bg-primary-50 text-primary-700 dark:border-primary-400/15 dark:bg-primary-400/10 dark:text-primary-200 rounded-full border px-3 py-1 text-xs font-bold;
+  }
+
+  .soft-card {
+    @apply hover:border-primary-200 dark:hover:border-primary-400/25 rounded-3xl border border-white/80 bg-white/80 shadow-[0_18px_45px_-32px_rgba(76,65,140,0.55)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_-30px_rgba(76,65,140,0.65)] dark:border-white/10 dark:bg-gray-950/55;
+  }
+
+  .icon-button {
+    @apply hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-500/10 dark:hover:text-primary-300 inline-flex h-10 w-10 items-center justify-center rounded-xl text-gray-600 transition duration-200 dark:text-gray-300;
+  }
+
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-cyan-500),
+      var(--color-primary-500) 46%,
+      var(--color-pink-400)
+    );
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.anime-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-primary-200) 35%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-cyan-200) 35%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom right, black, transparent 72%);
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(8deg);
+  }
+}
+
+.float-slow {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+.float-delayed {
+  animation: float-soft 6s 1.3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

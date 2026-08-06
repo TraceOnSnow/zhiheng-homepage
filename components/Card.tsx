@@ -1,56 +1,48 @@
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href }) => (
-  <div className="md max-w-[544px] p-4 md:w-1/2">
-    <div
-      className={`${
-        imgSrc && 'h-full'
-      } overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700/60`}
-    >
-      {imgSrc &&
-        (href ? (
-          <Link href={href} aria-label={`Link to ${title}`}>
-            <Image
-              alt={title}
-              src={imgSrc}
-              className="object-cover object-center md:h-36 lg:h-48"
-              width={544}
-              height={306}
-            />
-          </Link>
-        ) : (
-          <Image
-            alt={title}
-            src={imgSrc}
-            className="object-cover object-center md:h-36 lg:h-48"
-            width={544}
-            height={306}
-          />
-        ))}
-      <div className="p-6">
-        <h2 className="mb-3 text-2xl leading-8 font-bold tracking-tight">
-          {href ? (
-            <Link href={href} aria-label={`Link to ${title}`}>
-              {title}
-            </Link>
-          ) : (
-            title
-          )}
-        </h2>
-        <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
-        {href && (
-          <Link
-            href={href}
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 text-base leading-6 font-medium"
-            aria-label={`Link to ${title}`}
-          >
-            Learn more &rarr;
-          </Link>
-        )}
+interface CardProps {
+  title: string
+  description: string
+  imgSrc?: string
+  href?: string
+}
+
+const ArrowUpRight = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M8 7h9v9" />
+  </svg>
+)
+
+const Card = ({ title, description, imgSrc, href }: CardProps) => (
+  <article className="soft-card group flex h-full flex-col overflow-hidden">
+    {imgSrc && (
+      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-cyan-100 to-pink-100 dark:from-cyan-950 dark:to-pink-950">
+        <Image
+          alt={title}
+          src={imgSrc}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+        />
       </div>
+    )}
+    <div className="flex flex-1 flex-col p-6 sm:p-7">
+      <h2 className="text-2xl font-black tracking-tight text-gray-950 dark:text-white">
+        {href ? <Link href={href}>{title}</Link> : title}
+      </h2>
+      <p className="mt-3 flex-1 leading-7 text-gray-600 dark:text-gray-300">{description}</p>
+      {href && (
+        <Link
+          href={href}
+          className="text-link mt-6 inline-flex self-start"
+          aria-label={`Link to ${title}`}
+        >
+          View project <ArrowUpRight />
+        </Link>
+      )}
     </div>
-  </div>
+  </article>
 )
 
 export default Card

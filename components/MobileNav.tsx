@@ -28,12 +28,12 @@ const MobileNav = () => {
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
+      <button aria-label="Toggle Menu" onClick={onToggleNav} className="icon-button sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="hover:text-primary-500 dark:hover:text-primary-400 h-8 w-8 text-gray-900 dark:text-gray-100"
+          className="h-5 w-5"
         >
           <path
             fillRule="evenodd"
@@ -56,7 +56,7 @@ const MobileNav = () => {
               leaveTo="opacity-0"
               unmount={false}
             >
-              <div className="fixed inset-0 z-60 bg-black/25" />
+              <div className="fixed inset-0 z-60 bg-gray-950/35 backdrop-blur-sm" />
             </TransitionChild>
 
             <TransitionChild
@@ -69,16 +69,16 @@ const MobileNav = () => {
               leaveTo="translate-x-full opacity-0"
               unmount={false}
             >
-              <DialogPanel className="fixed top-0 left-0 z-70 h-full w-full bg-white/95 duration-300 dark:bg-gray-950/98">
+              <DialogPanel className="fixed top-0 right-0 z-70 h-full w-[min(86vw,360px)] border-l border-white/70 bg-white/92 shadow-2xl backdrop-blur-xl duration-300 dark:border-white/10 dark:bg-gray-950/92">
                 <nav
                   ref={navRef}
-                  className="mt-8 flex h-full basis-0 flex-col items-start overflow-y-auto pt-2 pl-12 text-left"
+                  className="flex h-full basis-0 flex-col items-start overflow-y-auto px-8 pt-24 text-left"
                 >
                   {headerNavLinks.map((link) => (
                     <Link
                       key={link.title}
                       href={link.href}
-                      className="hover:text-primary-500 dark:hover:text-primary-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 dark:text-gray-100"
+                      className="hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-500/10 dark:hover:text-primary-300 mb-2 w-full rounded-2xl px-4 py-3 text-xl font-black tracking-tight text-gray-800 transition dark:text-gray-100"
                       onClick={onToggleNav}
                     >
                       {link.title}

@@ -12,40 +12,48 @@ export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            About
-          </h1>
-        </div>
-        <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
-          <div className="flex flex-col items-center space-x-2 pt-8">
-            {avatar && (
+    <div className="pb-8 sm:pb-12">
+      <header className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 px-6 py-12 shadow-[0_24px_80px_-44px_rgba(88,80,180,0.5)] backdrop-blur-xl sm:px-10 dark:border-white/10 dark:bg-gray-900/70">
+        <div className="anime-grid absolute inset-0 -z-10 opacity-45" />
+        <div className="absolute -top-20 -right-20 -z-10 h-56 w-56 rounded-full bg-pink-200/55 blur-3xl dark:bg-pink-500/10" />
+        <p className="section-kicker">Character profile</p>
+        <h1 className="section-title text-4xl sm:text-5xl">About me</h1>
+      </header>
+
+      <div className="mt-8 grid items-start gap-8 lg:grid-cols-[280px_1fr]">
+        <aside className="soft-card p-6 text-center lg:sticky lg:top-28">
+          {avatar && (
+            <div className="relative mx-auto w-44">
+              <div className="absolute inset-2 rotate-6 rounded-[2rem] bg-gradient-to-br from-cyan-300 to-pink-300 opacity-65" />
               <Image
                 src={avatar}
-                alt="avatar"
+                alt={name}
                 width={192}
                 height={192}
-                className="h-48 w-48 rounded-full"
+                className="relative aspect-square w-full -rotate-2 rounded-[2rem] border-4 border-white object-cover shadow-xl transition hover:rotate-0 dark:border-gray-900"
               />
-            )}
-            <h3 className="pt-4 pb-2 text-2xl leading-8 font-bold tracking-tight">{name}</h3>
-            <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
-            <div className="text-gray-500 dark:text-gray-400">{company}</div>
-            <div className="flex space-x-3 pt-6">
-              <SocialIcon kind="mail" href={`mailto:${email}`} />
-              <SocialIcon kind="github" href={github} />
-              <SocialIcon kind="linkedin" href={linkedin} />
-              <SocialIcon kind="x" href={twitter} />
-              <SocialIcon kind="bluesky" href={bluesky} />
             </div>
+          )}
+          <h2 className="mt-6 text-2xl font-black tracking-tight text-gray-950 dark:text-white">
+            {name}
+          </h2>
+          <p className="text-primary-600 dark:text-primary-300 mt-2 text-sm font-semibold">
+            {occupation}
+          </p>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{company}</p>
+          <div className="mt-6 flex justify-center gap-4">
+            <SocialIcon kind="mail" href={`mailto:${email}`} />
+            <SocialIcon kind="github" href={github} />
+            <SocialIcon kind="linkedin" href={linkedin} />
+            <SocialIcon kind="x" href={twitter} />
+            <SocialIcon kind="bluesky" href={bluesky} />
           </div>
-          <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
-            {children}
-          </div>
-        </div>
+        </aside>
+
+        <article className="soft-card prose dark:prose-invert max-w-none p-7 sm:p-10">
+          {children}
+        </article>
       </div>
-    </>
+    </div>
   )
 }
