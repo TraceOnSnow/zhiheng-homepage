@@ -19,6 +19,7 @@ interface PaginationProps {
 interface PaginationLabels {
   previous: string
   next: string
+  pagination: string
 }
 
 interface ListLayoutProps {
@@ -45,7 +46,7 @@ function Pagination({
   return (
     <nav
       className="mt-8 flex items-center justify-between border-t border-gray-200/70 pt-6 dark:border-white/10"
-      aria-label="Pagination"
+      aria-label={labels.pagination}
     >
       {prevPage ? (
         <Link
@@ -168,7 +169,11 @@ export default function ListLayoutWithTags({
             <Pagination
               currentPage={pagination.currentPage}
               totalPages={pagination.totalPages}
-              labels={{ previous: copy.pages.previous, next: copy.pages.next }}
+              labels={{
+                previous: copy.pages.previous,
+                next: copy.pages.next,
+                pagination: copy.ui.pagination,
+              }}
             />
           )}
         </div>

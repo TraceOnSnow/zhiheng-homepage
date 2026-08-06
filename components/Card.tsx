@@ -1,11 +1,15 @@
 import Image from './Image'
 import Link from './Link'
+import type { Locale } from '@/lib/i18n'
+import { getMessages } from '@/lib/i18n'
 
 interface CardProps {
   title: string
   description: string
   imgSrc?: string
   href?: string
+  locale: Locale
+  descriptionZh?: string
 }
 
 const ArrowUpRight = () => (
@@ -14,35 +18,42 @@ const ArrowUpRight = () => (
   </svg>
 )
 
-const Card = ({ title, description, imgSrc, href }: CardProps) => (
-  <article className="soft-card group flex h-full flex-col overflow-hidden">
-    {imgSrc && (
-      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-cyan-100 to-pink-100 dark:from-cyan-950 dark:to-pink-950">
-        <Image
-          alt={title}
-          src={imgSrc}
-          fill
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-cover transition duration-500 group-hover:scale-[1.04]"
-        />
-      </div>
-    )}
-    <div className="flex flex-1 flex-col p-6 sm:p-7">
-      <h2 className="text-2xl font-black tracking-tight text-gray-950 dark:text-white">
-        {href ? <Link href={href}>{title}</Link> : title}
-      </h2>
-      <p className="mt-3 flex-1 leading-7 text-gray-600 dark:text-gray-300">{description}</p>
-      {href && (
-        <Link
-          href={href}
-          className="text-link mt-6 inline-flex self-start"
-          aria-label={`Link to ${title}`}
-        >
-          View project <ArrowUpRight />
-        </Link>
+const Card = ({ title, description, descriptionZh, imgSrc, href, locale }: CardProps) => {
+  const copy = getMessages(locale)
+  const localizedDescription = locale === 'zh' ? (descriptionZh ?? description) : description
+
+  return (
+    <article className="soft-card group flex h-full flex-col overflow-hidden">
+      {imgSrc && (
+        <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-cyan-100 to-pink-100 dark:from-cyan-950 dark:to-pink-950">
+          <Image
+            alt={title}
+            src={imgSrc}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover transition duration-500 group-hover:scale-[1.04]"
+          />
+        </div>
       )}
-    </div>
-  </article>
-)
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <h2 className="text-2xl font-black tracking-tight text-gray-950 dark:text-white">
+          {href ? <Link href={href}>{title}</Link> : title}
+        </h2>
+        <p className="mt-3 flex-1 leading-7 text-gray-600 dark:text-gray-300">
+          {localizedDescription}
+        </p>
+        {href && (
+          <Link
+            href={href}
+            className="text-link mt-6 inline-flex self-start"
+            aria-label={`${copy.ui.linkTo} ${title}`}
+          >
+            {copy.ui.viewProject} <ArrowUpRight />
+          </Link>
+        )}
+      </div>
+    </article>
+  )
+}
 
 export default Card

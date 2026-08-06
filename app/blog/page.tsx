@@ -7,7 +7,10 @@ import { getLocale } from '@/lib/i18n-server'
 
 const POSTS_PER_PAGE = 5
 
-export const metadata = genPageMetadata({ title: 'Blog' })
+export async function generateMetadata() {
+  const copy = getMessages(await getLocale())
+  return genPageMetadata({ title: copy.nav.blog })
+}
 
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
   const locale = await getLocale()

@@ -14,7 +14,8 @@
     "sync": "npm run sync-blog && npm run sync-images",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "codex:session": "./scripts/codex-session.sh"
   },
   "dependencies": {
     "@headlessui/react": "2.2.9",

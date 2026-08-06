@@ -1,16 +1,15 @@
-import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import { getMessages, type Locale } from '@/lib/i18n'
 
 interface Props {
-  children: ReactNode
   content: Omit<Authors, '_id' | '_raw' | 'body'>
   locale: Locale
+  bio: readonly string[]
 }
 
-export default function AuthorLayout({ children, content, locale }: Props) {
+export default function AuthorLayout({ content, locale, bio }: Props) {
   const copy = getMessages(locale)
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 
@@ -41,9 +40,9 @@ export default function AuthorLayout({ children, content, locale }: Props) {
             {name}
           </h2>
           <p className="text-primary-600 dark:text-primary-300 mt-2 text-sm font-semibold">
-            {occupation}
+            {copy.about.role}
           </p>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{company}</p>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{copy.about.company}</p>
           <div className="mt-6 flex justify-center gap-4">
             <SocialIcon kind="mail" href={`mailto:${email}`} />
             <SocialIcon kind="github" href={github} />
@@ -54,7 +53,9 @@ export default function AuthorLayout({ children, content, locale }: Props) {
         </aside>
 
         <article className="soft-card prose dark:prose-invert max-w-none p-7 sm:p-10">
-          {children}
+          {bio.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </article>
       </div>
     </div>

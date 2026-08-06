@@ -1,9 +1,16 @@
 'use client'
 
 import siteMetadata from '@/data/siteMetadata'
+
+interface ScrollTopAndCommentProps {
+  labels: {
+    comment: string
+    top: string
+  }
+}
 import { useEffect, useState } from 'react'
 
-const ScrollTopAndComment = () => {
+const ScrollTopAndComment = ({ labels }: ScrollTopAndCommentProps) => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -28,7 +35,7 @@ const ScrollTopAndComment = () => {
     >
       {siteMetadata.comments?.provider && (
         <button
-          aria-label="Scroll To Comment"
+          aria-label={labels.comment}
           onClick={handleScrollToComment}
           className="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
         >
@@ -42,7 +49,7 @@ const ScrollTopAndComment = () => {
         </button>
       )}
       <button
-        aria-label="Scroll To Top"
+        aria-label={labels.top}
         onClick={handleScrollTop}
         className="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
       >

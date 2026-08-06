@@ -48,12 +48,21 @@ const Monitor = ({ className = 'h-5 w-5' }: { className?: string }) => (
 )
 
 const options = [
-  { value: 'light', label: 'Light', Icon: Sun },
-  { value: 'dark', label: 'Dark', Icon: Moon },
-  { value: 'system', label: 'System', Icon: Monitor },
-]
+  { value: 'light', Icon: Sun },
+  { value: 'dark', Icon: Moon },
+  { value: 'system', Icon: Monitor },
+] as const
 
-const ThemeSwitch = () => {
+interface ThemeSwitchProps {
+  labels: {
+    light: string
+    dark: string
+    system: string
+    switcher: string
+  }
+}
+
+const ThemeSwitch = ({ labels }: ThemeSwitchProps) => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()
 
@@ -61,7 +70,7 @@ const ThemeSwitch = () => {
 
   return (
     <Menu as="div" className="relative">
-      <MenuButton className="icon-button" aria-label="Theme switcher">
+      <MenuButton className="icon-button" aria-label={labels.switcher}>
         {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <span className="h-5 w-5" />}
       </MenuButton>
       <Transition
@@ -77,7 +86,7 @@ const ThemeSwitch = () => {
           anchor="bottom end"
           className="z-80 mt-2 w-36 origin-top-right rounded-2xl border border-white/80 bg-white/90 p-1.5 text-sm shadow-xl backdrop-blur-xl focus:outline-none dark:border-white/10 dark:bg-gray-900/92"
         >
-          {options.map(({ value, label, Icon }) => (
+          {options.map(({ value, Icon }) => (
             <MenuItem key={value}>
               {({ focus }) => (
                 <button
@@ -85,7 +94,7 @@ const ThemeSwitch = () => {
                   className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 font-semibold transition ${focus || theme === value ? 'bg-primary-50 text-primary-700 dark:bg-primary-500/10 dark:text-primary-200' : 'text-gray-600 dark:text-gray-300'}`}
                 >
                   <Icon className="h-4 w-4" />
-                  {label}
+                  {labels[value]}
                 </button>
               )}
             </MenuItem>

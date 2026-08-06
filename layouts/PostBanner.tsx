@@ -9,22 +9,27 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { getMessages, type Locale } from '@/lib/i18n'
 
 interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
+  locale: Locale
 }
 
-export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
+export default function PostMinimal({ content, next, prev, children, locale }: LayoutProps) {
   const { slug, title, images } = content
+  const copy = getMessages(locale)
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
 
   return (
     <SectionContainer>
-      <ScrollTopAndComment />
+      <ScrollTopAndComment
+        labels={{ comment: copy.ui.scrollToComment, top: copy.ui.scrollToTop }}
+      />
       <article>
         <div>
           <div className="space-y-1 pb-10 text-center dark:border-gray-700">
@@ -42,7 +47,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
           <div className="prose dark:prose-invert max-w-none py-4">{children}</div>
           {siteMetadata.comments && (
             <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-              <Comments slug={slug} />
+              <Comments slug={slug} label={copy.ui.loadComments} />
             </div>
           )}
           <footer>
@@ -52,7 +57,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
                   <Link
                     href={`/${prev.path}`}
                     className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                    aria-label={`Previous post: ${prev.title}`}
+                    aria-label={`${copy.ui.previousArticle}: ${prev.title}`}
                   >
                     &larr; {prev.title}
                   </Link>
@@ -63,7 +68,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
                   <Link
                     href={`/${next.path}`}
                     className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                    aria-label={`Next post: ${next.title}`}
+                    aria-label={`${copy.ui.nextArticle}: ${next.title}`}
                   >
                     {next.title} &rarr;
                   </Link>

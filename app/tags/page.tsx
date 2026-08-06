@@ -5,7 +5,13 @@ import { genPageMetadata } from 'app/seo'
 import { getMessages } from '@/lib/i18n'
 import { getLocale } from '@/lib/i18n-server'
 
-export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
+export async function generateMetadata() {
+  const copy = getMessages(await getLocale())
+  return genPageMetadata({
+    title: copy.pages.tagsTitle,
+    description: copy.pages.tagsMetaDescription,
+  })
+}
 
 export default async function Page() {
   const copy = getMessages(await getLocale())

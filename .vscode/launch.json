@@ -7,6 +7,13 @@
       "request": "launch",
       "command": "npm run dev",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "启动 Codex（退出时 push）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run codex:session",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

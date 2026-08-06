@@ -8,9 +8,10 @@ import headerNavLinks from '@/data/headerNavLinks'
 
 interface MobileNavProps {
   labels: Record<string, string>
+  toggleLabel: string
 }
 
-const MobileNav = ({ labels }: MobileNavProps) => {
+const MobileNav = ({ labels, toggleLabel }: MobileNavProps) => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)
 
@@ -32,7 +33,7 @@ const MobileNav = ({ labels }: MobileNavProps) => {
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="icon-button sm:hidden">
+      <button aria-label={toggleLabel} onClick={onToggleNav} className="icon-button sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -92,7 +93,7 @@ const MobileNav = ({ labels }: MobileNavProps) => {
 
                 <button
                   className="hover:text-primary-500 dark:hover:text-primary-400 fixed top-7 right-4 z-80 h-16 w-16 p-4 text-gray-900 dark:text-gray-100"
-                  aria-label="Toggle Menu"
+                  aria-label={toggleLabel}
                   onClick={onToggleNav}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

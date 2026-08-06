@@ -4,10 +4,14 @@ import { genPageMetadata } from 'app/seo'
 import { getMessages } from '@/lib/i18n'
 import { getLocale } from '@/lib/i18n-server'
 
-export const metadata = genPageMetadata({ title: 'Projects' })
+export async function generateMetadata() {
+  const copy = getMessages(await getLocale())
+  return genPageMetadata({ title: copy.pages.projectsTitle })
+}
 
 export default async function Projects() {
-  const copy = getMessages(await getLocale())
+  const locale = await getLocale()
+  const copy = getMessages(locale)
 
   return (
     <div className="pb-8 sm:pb-12">
@@ -23,7 +27,7 @@ export default async function Projects() {
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {projectsData.map((project) => (
-          <Card key={project.title} {...project} />
+          <Card key={project.title} {...project} locale={locale} />
         ))}
       </div>
     </div>

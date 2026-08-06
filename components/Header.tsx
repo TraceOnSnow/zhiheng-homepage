@@ -11,7 +11,7 @@ import LanguageSwitch from './LanguageSwitch'
 
 const Header = async () => {
   const locale = await getLocale()
-  const { nav } = getMessages(locale)
+  const { nav, ui } = getMessages(locale)
   const labels = Object.fromEntries(
     Object.entries(nav).map(([key, value]) => [key, value])
   ) as Record<string, string>
@@ -35,7 +35,7 @@ const Header = async () => {
         <div className="flex items-center gap-1 sm:gap-2">
           <nav
             className="no-scrollbar hidden items-center gap-1 overflow-x-auto md:flex"
-            aria-label="Main navigation"
+            aria-label={ui.mainNavigation}
           >
             {headerNavLinks
               .filter((link) => link.key !== 'home' && link.key !== 'resume')
@@ -46,16 +46,23 @@ const Header = async () => {
               ))}
           </nav>
           <div className="mx-1 hidden h-5 w-px bg-gray-200 md:block dark:bg-white/10" />
-          <SearchButton />
+          <SearchButton label={ui.search} />
           <LanguageSwitch locale={locale} />
-          <ThemeSwitch />
+          <ThemeSwitch
+            labels={{
+              light: ui.light,
+              dark: ui.dark,
+              system: ui.system,
+              switcher: ui.themeSwitcher,
+            }}
+          />
           <Link
             href="/static/files/Resume_zhiheng.pdf"
             className="resume-button hidden sm:inline-flex"
           >
             {nav.resume}
           </Link>
-          <MobileNav labels={labels} />
+          <MobileNav labels={labels} toggleLabel={ui.toggleMenu} />
         </div>
       </div>
     </header>

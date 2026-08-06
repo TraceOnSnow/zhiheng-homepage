@@ -59,7 +59,7 @@ export default function Home({ posts, locale }: { posts: CoreContent<Blog>[]; lo
               <span className="text-gradient block pb-2">Wang.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-gray-600 sm:text-xl dark:text-gray-300">
-              {siteMetadata.description}
+              {copy.home.description}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -132,7 +132,7 @@ export default function Home({ posts, locale }: { posts: CoreContent<Blog>[]; lo
               </p>
               {featuredProject.href && (
                 <Link href={featuredProject.href} className="text-link mt-7 self-start">
-                  View project <ArrowUpRight />
+                  {copy.ui.viewProject} <ArrowUpRight />
                 </Link>
               )}
             </div>
@@ -183,7 +183,7 @@ export default function Home({ posts, locale }: { posts: CoreContent<Blog>[]; lo
         </div>
 
         <Link href="/blog" className="button-secondary mt-6 w-full justify-center sm:hidden">
-          {copy.home.readAll} posts
+          {copy.home.readAll} {copy.home.posts}
         </Link>
       </section>
     </div>
