@@ -1,312 +1,494 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
-@source '../node_modules/pliny';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Core theme configuration */
 @theme {
-  /* Font families */
-  --font-sans:
-    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-  /* Colors */
-  /* Copied from https://tailwindcss.com/docs/theme#default-theme-variable-reference */
-  --color-primary-50: oklch(0.971 0.014 343.198);
-  --color-primary-100: oklch(0.948 0.028 342.258);
-  --color-primary-200: oklch(0.899 0.061 343.231);
-  --color-primary-300: oklch(0.823 0.12 346.018);
-  --color-primary-400: oklch(0.718 0.202 349.761);
-  --color-primary-500: oklch(0.656 0.241 354.308);
-  --color-primary-600: oklch(0.592 0.249 0.584);
-  --color-primary-700: oklch(0.525 0.223 3.958);
-  --color-primary-800: oklch(0.459 0.187 3.815);
-  --color-primary-900: oklch(0.408 0.153 2.432);
-  --color-primary-950: oklch(0.284 0.109 3.907);
-
-  --color-gray-50: oklch(0.985 0.002 247.839);
-  --color-gray-100: oklch(0.967 0.003 264.542);
-  --color-gray-200: oklch(0.928 0.006 264.531);
-  --color-gray-300: oklch(0.872 0.01 258.338);
-  --color-gray-400: oklch(0.707 0.022 261.325);
-  --color-gray-500: oklch(0.551 0.027 264.364);
-  --color-gray-600: oklch(0.446 0.03 256.802);
-  --color-gray-700: oklch(0.373 0.034 259.733);
-  --color-gray-800: oklch(0.278 0.033 256.848);
-  --color-gray-900: oklch(0.21 0.034 264.665);
-  --color-gray-950: oklch(0.13 0.028 261.692);
-
-  /* Line heights */
-  --line-height-11: 2.75rem;
-  --line-height-12: 3rem;
-  --line-height-13: 3.25rem;
-  --line-height-14: 3.5rem;
-
-  /* Z-index values */
-  --z-60: 60;
-  --z-70: 70;
-  --z-80: 80;
-}
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-
-  a,
-  button {
-    outline-color: var(--color-primary-500);
-  }
-
-  a:focus-visible,
-  button:focus-visible {
-    outline: 2px solid;
-    border-radius: var(--radius-sm);
-    outline-color: var(--color-primary-500);
-  }
-}
-
-@layer utilities {
-  .prose {
-    & a {
-      color: var(--color-primary-500);
-      &:hover {
-        color: var(--color-primary-600);
-      }
-      & code {
-        color: var(--color-primary-400);
-      }
-    }
-    & :where(h1, h2) {
-      font-weight: 700;
-      letter-spacing: var(--tracking-tight);
-    }
-    & h3 {
-      font-weight: 600;
-    }
-    & :where(code):not(pre code) {
-      color: var(--color-indigo-500);
-    }
-  }
-
-  .prose-invert {
-    & a {
-      color: var(--color-primary-500);
-      &:hover {
-        color: var(--color-primary-400);
-      }
-      & code {
-        color: var(--color-primary-400);
-      }
-    }
-    & :where(h1, h2, h3, h4, h5, h6) {
-      color: var(--color-gray-100);
-    }
-  }
-}
-
-.task-list-item::before {
-  @apply hidden;
-}
-
-.task-list-item {
-  @apply list-none;
-}
-
-.footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
-}
-
-.data-footnote-backref {
-  @apply no-underline;
-}
-
-.csl-entry {
-  @apply my-5;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition:
-    background-color 600000s 0s,
-    color 600000s 0s;
-}
-
-.katex-display {
-  overflow: auto hidden;
-}
-
-.content-header-link {
-  opacity: 0;
-  margin-left: -24px;
-  padding-right: 4px;
-}
-
-.content-header:hover .content-header-link,
-.content-header-link:hover {
-  opacity: 1;
-}
-
-.linkicon {
-  display: inline-block;
-  vertical-align: middle;
+  --font-sans: ui-rounded, 'Avenir Next', 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   :root {
     color-scheme: light;
+    --paper: #f8f7f3;
+    --surface: rgba(255, 255, 255, 0.78);
+    --ink: #272533;
+    --muted: #716e7e;
+    --line: rgba(50, 45, 67, 0.12);
+    --accent: #8274c8;
+    --accent-soft: #eeebff;
+    --shadow: 0 24px 70px rgba(80, 72, 115, 0.12);
   }
 
   :root.dark {
     color-scheme: dark;
+    --paper: #16151d;
+    --surface: rgba(34, 31, 45, 0.84);
+    --ink: #f4f1f5;
+    --muted: #aaa4b2;
+    --line: rgba(255, 255, 255, 0.12);
+    --accent: #b9adff;
+    --accent-soft: rgba(130, 116, 200, 0.18);
+    --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    background: var(--paper);
   }
 
   body {
+    min-width: 320px;
     min-height: 100vh;
+    margin: 0;
     background:
-      radial-gradient(
-        circle at 8% 4%,
-        color-mix(in oklab, var(--color-cyan-200) 45%, transparent) 0,
-        transparent 24rem
-      ),
-      radial-gradient(
-        circle at 94% 14%,
-        color-mix(in oklab, var(--color-pink-200) 42%, transparent) 0,
-        transparent 26rem
-      ),
-      linear-gradient(180deg, #fbfdff 0%, #fffafd 48%, #f9fcff 100%);
-    background-attachment: fixed;
+      linear-gradient(rgba(248, 247, 243, 0.9), rgba(248, 247, 243, 0.94)),
+      url('/static/images/Mikoto.png') 50% 0 / cover fixed;
+    color: var(--ink);
+    font-family: ui-rounded, 'Avenir Next', 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
   }
 
-  .dark body {
+  :root.dark body {
     background:
-      radial-gradient(
-        circle at 8% 4%,
-        color-mix(in oklab, var(--color-cyan-900) 34%, transparent) 0,
-        transparent 26rem
-      ),
-      radial-gradient(
-        circle at 94% 14%,
-        color-mix(in oklab, var(--color-pink-950) 42%, transparent) 0,
-        transparent 28rem
-      ),
-      linear-gradient(180deg, #080b14 0%, #0c0c18 48%, #080d16 100%);
+      linear-gradient(rgba(22, 21, 29, 0.9), rgba(22, 21, 29, 0.95)),
+      url('/static/images/Mikoto.png') 50% 0 / cover fixed;
+  }
+
+  a,
+  button {
+    outline-color: var(--accent);
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-primary-300) 55%, transparent);
-    color: var(--color-gray-950);
+    background: var(--accent);
+    color: white;
   }
 }
 
 @layer components {
-  .nav-link {
-    @apply hover:bg-primary-50 hover:text-primary-700 dark:hover:bg-primary-500/10 dark:hover:text-primary-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-600 transition-colors dark:text-gray-300;
+  .site-shell {
+    width: min(100% - 2rem, 960px);
+    min-height: 100svh;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
   }
 
-  .resume-button {
-    @apply hover:bg-primary-600 dark:hover:bg-primary-200 items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 dark:bg-white dark:text-gray-900;
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 84px;
+    gap: 1rem;
   }
 
-  .button-primary {
-    @apply shadow-primary-500/15 hover:bg-primary-600 dark:hover:bg-primary-200 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gray-950 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 focus-visible:outline-offset-4 dark:bg-white dark:text-gray-950;
+  .wordmark {
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-decoration: none;
   }
 
-  .button-secondary {
-    @apply hover:border-primary-200 hover:bg-primary-50 hover:text-primary-700 dark:hover:border-primary-400/30 dark:hover:bg-primary-500/10 dark:hover:text-primary-200 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-gray-200/80 bg-white/75 px-5 py-3 text-sm font-bold text-gray-700 shadow-sm backdrop-blur transition duration-200 hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5 dark:text-gray-200;
+  .wordmark span,
+  .profile-copy h1 span {
+    color: var(--accent);
   }
 
-  .section-kicker {
-    @apply text-primary-500 dark:text-primary-300 mb-2 text-xs font-extrabold tracking-[0.22em] uppercase;
+  .quiet-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
-  .section-title {
-    @apply text-3xl font-black tracking-[-0.035em] text-gray-950 sm:text-4xl dark:text-white;
+  .quiet-nav > a,
+  .quiet-control {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.5rem 0.75rem;
+    color: var(--muted);
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
   }
 
-  .text-link {
-    @apply text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 items-center gap-1.5 text-sm font-bold transition-colors;
+  .quiet-nav > a:hover,
+  .quiet-control:hover {
+    color: var(--ink);
+    background: var(--surface);
+    transform: translateY(-1px);
   }
 
-  .soft-badge {
-    @apply border-primary-100 bg-primary-50 text-primary-700 dark:border-primary-400/15 dark:bg-primary-400/10 dark:text-primary-200 rounded-full border px-3 py-1 text-xs font-bold;
+  .quiet-control svg {
+    width: 1.05rem;
+    height: 1.05rem;
   }
 
-  .soft-card {
-    @apply hover:border-primary-200 dark:hover:border-primary-400/25 rounded-3xl border border-white/80 bg-white/80 shadow-[0_18px_45px_-32px_rgba(76,65,140,0.55)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_-30px_rgba(76,65,140,0.65)] dark:border-white/10 dark:bg-gray-950/55;
+  .portal-page {
+    flex: 1;
+    padding: clamp(2rem, 8vw, 6rem) 0 2rem;
   }
 
-  .icon-button {
-    @apply hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-500/10 dark:hover:text-primary-300 inline-flex h-10 w-10 items-center justify-center rounded-xl text-gray-600 transition duration-200 dark:text-gray-300;
+  .profile-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 180px;
+    align-items: center;
+    gap: clamp(2rem, 7vw, 5rem);
+    overflow: hidden;
+    padding: clamp(1.5rem, 6vw, 4rem);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
   }
 
-  .text-gradient {
-    background-image: linear-gradient(
-      100deg,
-      var(--color-cyan-500),
-      var(--color-primary-500) 46%,
-      var(--color-pink-400)
-    );
-    background-clip: text;
-    color: transparent;
+  .profile-card::after {
+    position: absolute;
+    right: -100px;
+    bottom: -110px;
+    width: 260px;
+    height: 260px;
+    border-radius: 999px;
+    background: #f0c7d7;
+    opacity: 0.28;
+    content: '';
+    filter: blur(36px);
+    pointer-events: none;
+  }
+
+  .profile-copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.8rem;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .profile-copy h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 9vw, 5.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.075em;
+    font-weight: 850;
+  }
+
+  .profile-intro {
+    max-width: 31rem;
+    margin: 1.5rem 0 0;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.55;
+    letter-spacing: -0.02em;
+  }
+
+  .profile-focus {
+    max-width: 30rem;
+    margin: 0.75rem 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.7rem;
+  }
+
+  .profile-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 76%, transparent);
+    font-size: 0.8rem;
+    font-weight: 750;
+    text-decoration: none;
+    transition:
+      border-color 180ms ease,
+      transform 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .profile-links a:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+  }
+
+  .not-found-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--surface);
+    font-size: 0.82rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .profile-links svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .mail-mark {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    line-height: 1;
+  }
+
+  .avatar-frame {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 180px;
+    justify-self: end;
+    padding: 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    box-shadow: 0 16px 35px rgba(75, 62, 105, 0.16);
+    transform: rotate(3deg);
+    transition: transform 220ms ease;
+  }
+
+  .avatar-frame:hover {
+    transform: rotate(0deg) scale(1.02);
+  }
+
+  .avatar-frame img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar-note {
+    position: absolute;
+    right: -0.25rem;
+    bottom: 0.5rem;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: #a55b85;
+    background: #fff4cf;
+    font-size: 1rem;
+  }
+
+  .portal-links {
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0 1rem;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.045em;
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.4rem;
+  }
+
+  .portal-link-card {
+    min-height: 100px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    color: var(--ink);
+    background: var(--surface);
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(80, 72, 115, 0.05);
+    backdrop-filter: blur(10px);
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
+  }
+
+  .portal-link-card:last-child {
+    grid-column: span 2;
+  }
+
+  .portal-link-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+    box-shadow: 0 16px 34px rgba(80, 72, 115, 0.12);
+    transform: translateY(-3px);
+  }
+
+  .portal-link-icon {
+    display: grid;
+    width: 2.7rem;
+    height: 2.7rem;
+    place-items: center;
+    border-radius: 13px;
+  }
+
+  .portal-link-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .accent-lavender .portal-link-icon {
+    color: #6e60b5;
+    background: #ede9ff;
+  }
+  .accent-mint .portal-link-icon {
+    color: #3d8c78;
+    background: #ddf5ec;
+  }
+  .accent-sky .portal-link-icon {
+    color: #4276a8;
+    background: #e2f0fc;
+  }
+  .accent-peach .portal-link-icon {
+    color: #a86e52;
+    background: #ffeadf;
+  }
+  .accent-butter .portal-link-icon {
+    color: #9b7d29;
+    background: #fff2bd;
+  }
+
+  .portal-link-body {
+    min-width: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .portal-link-body strong {
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+  }
+
+  .portal-link-body span {
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+  }
+
+  .portal-link-card > svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--muted);
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .portal-link-card:hover > svg {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0 2rem;
+    color: var(--muted);
+    font-size: 0.72rem;
   }
 }
 
-.anime-grid {
-  background-image:
-    linear-gradient(
-      to right,
-      color-mix(in oklab, var(--color-primary-200) 35%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--color-cyan-200) 35%, transparent) 1px,
-      transparent 1px
-    );
-  background-size: 32px 32px;
-  mask-image: linear-gradient(to bottom right, black, transparent 72%);
-}
-
-@keyframes float-soft {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+@media (max-width: 640px) {
+  .site-shell {
+    width: min(100% - 1.25rem, 960px);
   }
-  50% {
-    transform: translate3d(0, -10px, 0) rotate(8deg);
+
+  .site-header {
+    min-height: 72px;
   }
-}
 
-.float-slow {
-  animation: float-soft 5s ease-in-out infinite;
-}
+  .quiet-nav > a {
+    display: none;
+  }
 
-.float-delayed {
-  animation: float-soft 6s 1.3s ease-in-out infinite;
+  .profile-card {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .avatar-frame {
+    width: 140px;
+    justify-self: start;
+    order: -1;
+  }
+
+  .profile-copy h1 {
+    font-size: clamp(2.8rem, 16vw, 4.5rem);
+  }
+
+  .link-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-link-card:last-child {
+    grid-column: auto;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  body,
+  :root.dark body {
+    background-attachment: scroll;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -314,8 +496,6 @@ input:-webkit-autofill:focus {
   *::before,
   *::after {
     scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

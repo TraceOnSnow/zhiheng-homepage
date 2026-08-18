@@ -19,7 +19,6 @@ const eslintConfig = [
       'next.config.js',
       'node_modules/**',
       '.next/**',
-      '.contentlayer/**',
       '.yarn/**',
       'public/**',
     ],

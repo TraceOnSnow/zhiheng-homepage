@@ -1,62 +1,30 @@
 {
-  "name": "tailwind-nextjs-starter-blog",
-  "version": "2.4.0",
+  "name": "treesonsnow-home",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "next start",
     "dev": "cross-env INIT_CWD=$PWD next dev",
-    "build": "cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
-    "analyze": "cross-env ANALYZE=true next build",
+    "build": "cross-env INIT_CWD=$PWD next build",
     "lint": "eslint .",
     "prepare": "husky",
-    "sync-blog": "rsync -av --delete /mnt/d/Documents/Blogs/blog/ ./data/blog/",
-    "sync-images": "rsync -av --delete /mnt/d/Documents/Blogs/static/images/blog/ ./public/static/images/blog/",
-    "sync": "npm run sync-blog && npm run sync-images",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "codex:session": "./scripts/codex-session.sh"
   },
   "dependencies": {
-    "@headlessui/react": "2.2.9",
-    "@next/bundle-analyzer": "15.5.12",
-    "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.1.18",
-    "@tailwindcss/typography": "^0.5.19",
-    "body-scroll-lock": "^3.1.5",
-    "contentlayer2": "0.5.8",
-    "esbuild": "0.27.3",
-    "github-slugger": "^2.0.0",
-    "gray-matter": "^4.0.3",
-    "hast-util-from-html-isomorphic": "^2.0.0",
-    "image-size": "2.0.2",
     "next": "15.5.12",
-    "next-contentlayer2": "0.5.8",
     "next-themes": "^0.4.6",
-    "pliny": "0.4.1",
     "postcss": "^8.5.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "reading-time": "1.5.0",
-    "rehype-autolink-headings": "^7.1.0",
-    "rehype-citation": "^2.3.2",
-    "rehype-katex": "^7.0.1",
-    "rehype-katex-notranslate": "^1.1.4",
-    "rehype-preset-minify": "7.0.1",
-    "rehype-prism-plus": "^2.0.2",
-    "rehype-slug": "^6.0.0",
-    "remark": "^15.0.1",
-    "remark-gfm": "^4.0.1",
-    "remark-github-blockquote-alert": "^2.0.1",
-    "remark-math": "^6.0.0",
-    "tailwindcss": "^4.1.18",
-    "unist-util-visit": "^5.1.0"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.18.0",
-    "@svgr/webpack": "^8.1.0",
-    "@types/mdx": "^2.0.13",
     "@types/react": "^19.2.13",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
@@ -80,12 +48,5 @@
       "prettier --write"
     ]
   },
-  "packageManager": "npm@11.16.0",
-  "allowScripts": {
-    "contentlayer2@0.5.8": true,
-    "esbuild@0.27.3": true,
-    "protobufjs@7.5.4": true,
-    "sharp@0.34.5": true,
-    "unrs-resolver@1.11.1": true
-  }
+  "packageManager": "npm@11.16.0"
 }

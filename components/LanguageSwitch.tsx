@@ -26,7 +26,7 @@ export default function LanguageSwitch({ locale }: Props) {
   return (
     <button
       type="button"
-      className="icon-button px-2.5 text-xs font-black tracking-wide"
+      className="quiet-control"
       aria-label={currentLocale === 'en' ? '切换到中文' : 'Switch to English'}
       title={currentLocale === 'en' ? '切换到中文' : 'Switch to English'}
       onClick={toggleLocale}
