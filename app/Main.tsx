@@ -65,7 +65,7 @@ export default function Home({ locale }: { locale: Locale }) {
         <div className="profile-copy">
           <p className="eyebrow">{copy.home.eyebrow}</p>
           <h1>
-            treesonsnow<span>.</span>
+            traceonsnow<span>.</span>
           </h1>
           <p className="profile-intro">{copy.home.intro}</p>
           <p className="profile-focus">{copy.home.focus}</p>

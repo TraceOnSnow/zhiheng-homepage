@@ -11,8 +11,8 @@ export default async function Header() {
 
   return (
     <header className="site-header">
-      <Link href="/" className="wordmark" aria-label="treesonsnow home">
-        treesonsnow<span>.</span>
+      <Link href="/" className="wordmark" aria-label="traceonsnow home">
+        traceonsnow<span>.</span>
       </Link>
       <nav className="quiet-nav" aria-label="Primary navigation">
         <a href={portalLinks.blog} target="_blank" rel="noreferrer">

@@ -1,7 +1,7 @@
 export const portalLinks = {
-  blog: 'https://blog.treesonsnow.com',
+  blog: 'https://blog.traceonsnow.com',
   // Update this one value when the final Projects route in Trace Blog is decided.
-  projects: 'https://blog.treesonsnow.com/projects',
+  projects: 'https://blog.traceonsnow.com/projects',
   github: 'https://github.com/TraceOnSnow',
   email: 'zhihengw02@outlook.com',
   // Replace this repository URL after Hayaku Shelf has a public deployment.
