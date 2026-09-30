@@ -45,3 +45,10 @@ yarn-error.log*
 
 # Contentlayer
 .contentlayer
+
+# Payload storage and local configuration
+.env
+/storage/
+*.tsbuildinfo
+/test-results/
+/playwright-report/
