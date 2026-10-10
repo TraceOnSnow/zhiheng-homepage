@@ -1,7 +1,7 @@
 import { slugify } from '../slug'
-import type { GameCandidate, Source } from './types'
+import type { MetadataCandidate, Source } from './types'
 
-export function metadataPatch(candidate: GameCandidate, current: { slug?: string; sources?: Source[] }) {
+export function metadataPatch(candidate: MetadataCandidate, current: { slug?: string; sources?: Source[] }) {
   const sources = (current.sources || []).filter(source => source.provider !== candidate.provider)
   return {
     title: candidate.title,

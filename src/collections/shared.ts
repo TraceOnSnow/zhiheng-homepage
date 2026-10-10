@@ -18,10 +18,13 @@ export const slug: Field = slugField({
     return row
   },
 })
-export const tags: Field = { name: 'tags', type: 'text', hasMany: true }
-export const cover: Field = { name: 'cover', type: 'upload', relationTo: 'media' }
-export const httpURL = (value: unknown) => {
+export const tags: Field = { name: 'tags', label: {zh: '标签', en: 'Tags'}, type: 'text', hasMany: true }
+export const cover: Field = { name: 'cover', label: {zh: '封面', en: 'Cover'}, type: 'upload', relationTo: 'media' }
+export const httpURL = (value: unknown, options?: { req?: PayloadRequest }) => {
+  const chinese = options?.req?.i18n.language !== 'en'
+  const invalid = chinese ? '请输入有效 URL。' : 'Enter a valid URL.'
+  const protocol = chinese ? '请输入 HTTP(S) URL。' : 'Enter an HTTP(S) URL.'
   if (!value) return true
-  try { return ['http:', 'https:'].includes(new URL(String(value)).protocol) || '请输入 HTTP(S) URL。' }
-  catch { return '请输入有效 URL。' }
+  try { return ['http:', 'https:'].includes(new URL(String(value)).protocol) || protocol }
+  catch { return invalid }
 }

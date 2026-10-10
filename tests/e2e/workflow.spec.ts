@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test'
 
 test('admin creates a game via search, publishes a related post, and serves both publicly', async ({ page, request }) => {
   expect((await request.get('/api/metadata/games?q=TUNIC')).status()).toBe(401)
+  expect((await request.get('/api/metadata/search?type=book&q=三体')).status()).toBe(401)
+  expect((await request.get('/api/metadata/details?type=book&q=三体&provider=weread&id=1')).status()).toBe(401)
   await page.goto('/admin')
   await page.locator('#field-email').fill('owner@example.test')
   await page.locator('#field-password').fill('browser-test-password-123')
@@ -12,16 +14,17 @@ test('admin creates a game via search, publishes a related post, and serves both
   await page.getByRole('button', { name: 'Create', exact: true }).click()
   await expect(page).toHaveURL(/\/admin$/)
   await page.goto('/admin/collections/works/create')
-  // Only the external search response is mocked. Form rendering, save, authentication,
+  // Only external metadata search/detail responses are mocked. Form rendering, save, authentication,
   // relationships, database and public rendering all use the real application.
-  await page.route('**/api/metadata/games?q=TUNIC', route => route.fulfill({ json: {
-    candidates: [{ provider: 'igdb', externalId: '12', title: 'TUNIC', aliases: ['TUNIC', '小狐狸'], creators: ['Andrew Shouldice'], platforms: ['PC'], releaseDate: '2022-03-16T00:00:00.000Z', description: 'An adventure game.', source: { provider: 'igdb', externalId: '12', url: 'https://www.igdb.com/games/tunic', fetchedAt: '2026-09-29T00:00:00.000Z' } }],
+  await page.route('**/api/metadata/search?type=game&q=TUNIC', route => route.fulfill({ json: {
+    candidates: [{ type: 'game', provider: 'igdb', externalId: '12', title: 'TUNIC', aliases: ['TUNIC', '小狐狸'], creators: ['Andrew Shouldice'], platforms: ['PC'], releaseDate: '2022-03-16T00:00:00.000Z', description: 'An adventure game.', source: { provider: 'igdb', externalId: '12', url: 'https://www.igdb.com/games/tunic', fetchedAt: '2026-09-29T00:00:00.000Z' } }],
     providers: [{ provider: 'igdb', state: 'ok' }, { provider: 'rawg', state: 'unavailable', message: '服务端尚未配置凭据。' }],
   } }))
-  await page.getByLabel('搜索游戏', { exact: true }).fill('TUNIC')
-  await page.getByRole('button', { name: '搜索', exact: true }).click()
-  await page.getByRole('button', { name: '选择 TUNIC', exact: true }).click()
-  await expect(page.getByRole('status').filter({ hasText: '已填入' })).toBeVisible()
+  await page.route('**/api/metadata/details?**', route => route.fulfill({ status: 503, json: { error: 'Provider unavailable' } }))
+  await page.getByLabel('Search games', { exact: true }).fill('TUNIC')
+  await page.getByRole('button', { name: 'Search', exact: true }).click()
+  await page.getByRole('button', { name: 'Select TUNIC', exact: true }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'filled basic search metadata' })).toBeVisible()
   await expect(page.locator('#field-title')).toHaveValue('TUNIC')
   await page.locator('#field-rating').fill('9.5')
   await page.locator('#field-note').fill('A memorable adventure.')
@@ -60,4 +63,61 @@ test('admin creates a game via search, publishes a related post, and serves both
     if (route === '/works/tunic') await page.screenshot({ path: 'test-results/works-tunic-mobile.png', fullPage: true })
   }
   await page.screenshot({ path: 'test-results/mobile-projects.png', fullPage: true })
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto('/admin/account')
+  await page.locator('#language-select').fill('中文')
+  await page.getByRole('option', { name: '中文 (简体)', exact: true }).click()
+  await expect(page.locator('label[for="language-select"]')).toHaveText('语言')
+  await page.goto('/admin/collections/works/create')
+  await expect(page.getByLabel('搜索游戏', { exact: true })).toBeVisible()
+  await expect(page.locator('label[for="field-title"]')).toContainText('标题')
+  await page.reload()
+  await expect(page.getByLabel('搜索游戏', { exact: true })).toBeVisible()
+  const examples = [
+    { type: 'book', label: '书籍', provider: 'weread', title: '三体', id: 'wr-1' },
+    { type: 'book', label: '书籍', provider: 'google-books', title: 'Google Book', id: 'gb-1' },
+    { type: 'book', label: '书籍', provider: 'open-library', title: 'Library Book', id: 'OL1W' },
+    { type: 'movie', label: '电影', provider: 'tmdb', title: '星际穿越', id: 'movie:157336' },
+    { type: 'tv', label: '电视剧', provider: 'tmdb', title: 'TV Example', id: 'tv:1' },
+    { type: 'anime', label: '动画', provider: 'bangumi', title: '葬送的芙莉莲', id: '1' },
+    { type: 'manga', label: '漫画', provider: 'bangumi', title: 'Manga Example', id: '2' },
+    { type: 'boardgame', label: '桌游', provider: 'bgg', title: 'Catan', id: '13' },
+    { type: 'comic', label: '美漫', provider: 'google-books', title: 'Comic Example', id: 'gb-2' },
+  ]
+  const fixture = (example: typeof examples[number]) => ({ provider: example.provider, type: example.type, externalId: example.id, title: example.title, aliases: [example.title], creators: ['Creator'], platforms: [], source: { provider: example.provider, externalId: example.id } })
+  await page.route('**/api/metadata/search?**', route => {
+    const q = new URL(route.request().url()).searchParams.get('q')
+    const example = examples.find(example => example.title === q)!
+    return route.fulfill({ json: { candidates: [fixture(example)], providers: [{ provider: example.provider, state: 'ok' }] } })
+  })
+  await page.route('**/api/metadata/details?**', route => {
+    const q = new URL(route.request().url()).searchParams.get('q')
+    const example = examples.find(example => example.title === q)!
+    return route.fulfill({ json: { candidate: { ...fixture(example), description: 'Detailed metadata', coverUrl: 'http://127.0.0.1:3100/assets/brand/avatar.png', releaseDate: '2024-01-02T00:00:00.000Z' }, state: 'ok' } })
+  })
+  for (const example of examples) {
+    await page.goto('/admin/collections/works/create')
+    await page.locator('#field-type').click()
+    await page.getByRole('option', { name: example.label, exact: true }).click()
+    await page.locator('#metadata-search').fill(example.title)
+    await page.getByRole('button', { name: '搜索', exact: true }).click()
+    await page.getByRole('button', { name: `选择 ${example.title}`, exact: true }).click()
+    await expect(page.locator('#field-title')).toHaveValue(example.title)
+    await expect(page.locator('#field-coverUrl')).toHaveValue('http://127.0.0.1:3100/assets/brand/avatar.png')
+    await expect(page.locator('#field-description')).toHaveValue('Detailed metadata')
+    await page.locator('#field-rating').fill('8')
+    await page.locator('#field-note').fill('My own reaction')
+    await page.getByRole('button', { name: '保存', exact: true }).click()
+    await expect(page).toHaveURL(/\/admin\/collections\/works\/\d+$/)
+    const documents = (await (await request.get(`/api/works?where[title][equals]=${encodeURIComponent(example.title)}`)).json()).docs
+    const saved = documents[0]
+    expect(saved.type).toBe(example.type)
+    expect(saved.sources[0].externalId).toBe(example.id)
+    await page.goto(`/works/${saved.slug}`)
+    await expect(page.getByRole('heading', { name: example.title, exact: true })).toBeVisible()
+    await expect(page.getByText('8 / 10', { exact: true })).toBeVisible()
+    await expect(page.getByText('My own reaction')).toBeVisible()
+    await expect(page.locator('.detail-cover')).toHaveAttribute('src', 'http://127.0.0.1:3100/assets/brand/avatar.png')
+  }
+
 })

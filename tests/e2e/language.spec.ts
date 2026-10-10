@@ -1,0 +1,22 @@
+import { expect, test } from '@playwright/test'
+
+test('UI language persists without changing the URL or authored content', async ({ page }) => {
+  await page.goto('/works?type=game&page=1')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN')
+  await expect(page.getByRole('heading', { name: '作品记录', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Switch to English' }).click()
+  await expect(page.getByRole('heading', { name: 'Works', exact: true })).toBeVisible()
+  await expect(page).toHaveURL(/\/works\?type=game&page=1$/)
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
+  await expect(page.locator('.filters a[aria-current]')).toHaveText('Games')
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Works', exact: true })).toBeVisible()
+  await page.goto('/')
+  await expect(page.getByText('关注 Agent Systems、模型编排与多模态知识图谱。这里记录软件工程、项目实践，以及玩过、看过和读过的作品。')).toBeVisible()
+  await page.getByRole('link', { name: 'Posts', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Posts', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: '切换为中文' }).click()
+  await expect(page.getByRole('heading', { name: '文章', exact: true })).toBeVisible()
+  await page.setViewportSize({ width: 390, height: 844 })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})

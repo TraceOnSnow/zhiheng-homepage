@@ -7,6 +7,8 @@ import type { Payload } from 'payload'
 
 test('real SQLite CRUD, publication access, native reverse relationship and authentication', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'trace-cms-test-'))
+  // Standalone tests must not attach a persistent HMR socket to a running dev server.
+  process.env.DISABLE_PAYLOAD_HMR = 'true'
   process.env.DATABASE_URL = `file:${directory}/test.db`
   process.env.MEDIA_DIR = `${directory}/media`
   process.env.PAYLOAD_SECRET = 'integration-test-secret-not-for-production'

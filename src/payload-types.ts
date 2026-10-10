@@ -235,7 +235,7 @@ export interface Work {
   aliases?: string[] | null;
   cover?: (number | null) | Media;
   /**
-   * 外部封面；上传封面优先。
+   * External cover; uploaded covers take priority.
    */
   coverUrl?: string | null;
   releaseDate?: string | null;
@@ -252,7 +252,7 @@ export interface Work {
       }[]
     | null;
   /**
-   * 个人评分，0–10；未评分时留空。
+   * Personal rating, 0–10; leave blank if unrated.
    */
   rating?: number | null;
   status?: ('planned' | 'in-progress' | 'completed' | 'on-hold' | 'dropped') | null;

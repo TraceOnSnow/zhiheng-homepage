@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "TraceOnSnow：开发（首页）",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "command": "mkdir -p storage && set -o pipefail && npm run dev -- --port 3000 2>&1 | tee storage/dev.log",
+      "serverReadyAction": {
+        "pattern": "Ready in",
+        "uriFormat": "http://localhost:3000",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "TraceOnSnow：开发（Admin）",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "command": "mkdir -p storage && set -o pipefail && npm run dev -- --port 3000 2>&1 | tee storage/dev.log",
+      "serverReadyAction": {
+        "pattern": "Ready in",
+        "uriFormat": "http://localhost:3000/admin",
+        "action": "openExternally"
+      }
+    }
+  ]
+}
