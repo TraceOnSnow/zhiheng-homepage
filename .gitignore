@@ -48,6 +48,8 @@ yarn-error.log*
 
 # Payload storage and local configuration
 .env
+/deploy/.env.production
+/deploy/backups/
 /storage/
 *.tsbuildinfo
 /test-results/

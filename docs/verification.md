@@ -11,4 +11,12 @@
 
 独立 SQLite 集成测试禁用 Payload HMR，避免连接正在运行的本地 Next.js 开发服务器而阻止测试进程退出。
 
+## 服务器部署配置验证
+
+- 官方 Compose 2.39.4 工具解析配置通过，验证 loopback 端口、数据库 / media bind mounts 和 tools profile 中的一次性迁移服务。检查使用临时占位环境文件，没有展开真实密钥。
+- Lint、TypeScript 通过。在 `/tmp` 中准备不含 `.env`、历史内容或本地数据的隔离目录，使用占位构建配置完成生产构建（有编译警告，退出码 0）。测试复用已安装的 node_modules；不等同于镜像里的 `npm ci`。
+- 隔离生产迁移从空库成功执行。使用正式域名形式的 SERVER_URL 和 localhost 浏览器连接，验证首次管理员初始化、登录、上传图片、保存作品、停止进程、生成内容备份、重启进程及作品 / 图片继续返回 200。
+- 新部署文件未包含本地 `.env` 的已配置密钥；`deploy/.env.production` 和 `deploy/backups/` 已被 Git 忽略。
+- 当前 WSL 无可用 Docker Engine / Nginx，未执行实际镜像构建、容器挂载重建或 `nginx -t`，也没有配置服务器、证书或域名。这些步骤需在服务器按 `docs/deployment.md` 执行。
+
 Next.js 开发模式的独立 React debug WebSocket 通道在认证重定向中出现过负数时间戳报错，现设置 `experimental.reactDebugChannel: false`，仅改变开发调试信息传输。生产模式无此调试路径。

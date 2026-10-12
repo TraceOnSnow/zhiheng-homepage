@@ -85,7 +85,7 @@ npm start
 
 开发环境由 Payload 自动同步 schema，生产必须执行已提交的 migrations。不要对已有开发 push 数据库直接叠加初始迁移；部署使用新库或经过核实的 schema baseline。生产 `DATABASE_URL` 与 `MEDIA_DIR` 指向持久化位置，设置随机 `PAYLOAD_SECRET` 与真实 `SERVER_URL=https://traceonsnow.com`。备份 SQLite 时用 backup API（包括 WAL 一致性），同时备份 Media 文件。
 
-本地 SQLite + 文件上传需要持久化服务器/磁盘；现有 Vercel 临时文件系统不能直接承载它。若仍部署 Vercel，后续改远程数据库与对象存储。本阶段没有部署或修改域名。
+服务器部署已提供 `Dockerfile`、`compose.yaml` 和宿主机 Nginx 配置：Compose 只常驻一个应用容器，SQLite / 图片通过 bind mount 保存在仓库外，数据库迁移单独执行。首次启动、HTTPS、更新与备份见 [服务器部署说明](docs/deployment.md)。本轮仅准备配置，没有操作服务器或修改域名。本地开发启动方式不变。
 
 ## 来源
 
